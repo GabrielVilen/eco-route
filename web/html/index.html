@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="../js/map.js"></script>
+    <script type="text/javascript" src="../js/chart.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+<div id="floating-panel">
+    <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+    <button onclick="changeGradient()">Change gradient</button>
+    <button onclick="changeRadius()">Change radius</button>
+    <button onclick="changeOpacity()">Change opacity</button>
+</div>
+
+<div id="map"></div>
+<div id="chartsPanel"> <canvas id="chart" height="30%"></canvas> </div>
+
+<script type="text/javascript" src="../js/chart.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFXxN0bYVHZyfnuV5oLc5pIc4VpN6t9lg&libraries=visualization&callback=initMap">
+</script>
+</body>
+</html>
