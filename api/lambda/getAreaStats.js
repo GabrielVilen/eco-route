@@ -42,21 +42,10 @@ function distance(lat1, lon1, lat2, lon2) {
         c(lat1 * p) * c(lat2 * p) *
         (1 - c((lon2 - lon1) * p))/2;
 
-    const res = 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km, convert to meter
+    const res = 1000 * (12742 * Math.asin(Math.sqrt(a))); // 2 * R; R = 6371 km, convert to meter
     console.log("distance = " + res);
 
     return res;
-}
-
-function isWithinRange(lat, long, cmpLat, cmpLong, rangeMeters) {
-    let maxLat = lat + ((rangeMeters * 111.325)/1000)
-
-    const RAD = 0.000008998719243599958; // 1 degree ~ 111.325km
-    let meters = distance(lat, long, cmpLat, cmpLong, meters);
-
-    console.log("meters = " + meters + " rangeMeters = " + rangeMeters);
-
-    return (meters < rangeMeters);
 }
 
 exports.handler = (event, context, callback) => {
