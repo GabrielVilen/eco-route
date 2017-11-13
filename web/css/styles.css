@@ -8,9 +8,16 @@
 
 #chart {
     display: block;
-    !important; height: 30%;
-    /* top: -83%;
-     position: relative;  */
+    /*
+    width: 300px; !important;
+    height:200px !important;
+     top: -83%;
+    height: 100% !important;
+     position: relative;
+
+    width:50% !important;
+    height:30% !important;*/
+
     background-color: white;
 }
 /* Optional: Makes the sample page fill the window. */

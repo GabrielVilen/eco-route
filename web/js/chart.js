@@ -1,44 +1,59 @@
 /**
  * Created by gabriel on 2017-10-19.
  */
-/*
- chart code below
- */
-var chartPoints = [];
 
-var config =  {
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-            label: "My First dataset",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: chartPoints
+var charts = [], temp = [], carbon = [],  humidity = [];
+var options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero:true
+            }
         }]
-    },
-
-    // Configuration options go here
-    options: {}
+    }
 };
 
-var ctx = document.getElementById('chart').getContext('2d');
-var chart = new Chart(ctx, config);
+function createChart(name, dataPoints, color) {
+    console.log(name, dataPoints, color);
 
+    var dt = {
+        labels: [], datasets: [{label: name, backgroundColor: color, borderColor: color, data: dataPoints}]
+    };
+
+    var chart = new Chart(document.getElementById(name), {
+        type: 'line',
+        data: dt,
+        options: options
+    });
+    charts.push(chart);
+    return chart;
+}
+
+var chart_temp = createChart("chart_temp", temp, 'rgb(255, 163, 102)');
+var chart_carbon = createChart("chart_carbon", carbon, 'rgb(153, 153, 153)');
+var chart_humidity = createChart("chart_humidity", humidity, 'rgb(102, 204, 255)');
+
+var i = 0;
+function updateCharts() {
+    i++;
+    charts.forEach(function(cha) {
+        cha.config.data.labels.push(i);
+        cha.update();
+    });
+}
 
 function addPoint(payload) {
-   // data.push(payload);
     mapPoints.push(new google.maps.LatLng(payload.long, payload.lat));
-    chartPoints.push(payload.temp);
+    console.log(payload);
 
+    temp.push(payload.temp);
+    carbon.push(payload.carbon);
+    humidity.push(payload.humidity);
 
-    window.chart.update();
-    config.data.labels.push("");
+    updateCharts();
 
-
-    console.log("added " + payload.temp);
     console.log("Added " + payload.long + "," + payload.lat);
 }
 
@@ -56,7 +71,6 @@ var dataDict = {};
 function key(payload) {
     return payload.id + payload.lat + payload.long;
 }
-
 
 function scanItemsFromDB() {
     var params = {
@@ -84,16 +98,24 @@ function scanItemsFromDB() {
 
 setInterval(testAdd, 3000);
 
-var tmp = 10;
+var testTemp = 10, testCarbon = 200, testHumitidy = 50;
 function testAdd() {
-    tmp += Math.random() - 0.5;
+    testTemp += Math.random() - 0.5;
+    testCarbon += 100*(Math.random() - 0.5);
+    testHumitidy += 50*(Math.random() - 0.5);
+
     var dummy = {
-        temp: tmp,
+        temp: testTemp,
+        carbon: testCarbon,
+        humidity: testHumitidy,
         id: 1,
         long: 52.006504 + Math.random() / 10,
         lat: 4.362238 + Math.random() / 10,
         timestamp: 201709282218
     };
     addPoint(dummy)
-
 }
+
+
+
+
