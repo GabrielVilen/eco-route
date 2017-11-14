@@ -16,8 +16,6 @@ var options = {
 };
 
 function createChart(name, dataPoints, color) {
-    console.log(name, dataPoints, color);
-
     var dt = {
         labels: [], datasets: [{label: name, backgroundColor: color, borderColor: color, data: dataPoints}]
     };
@@ -35,26 +33,19 @@ var chart_temp = createChart("chart_temp", temp, 'rgb(255, 163, 102)');
 var chart_carbon = createChart("chart_carbon", carbon, 'rgb(153, 153, 153)');
 var chart_humidity = createChart("chart_humidity", humidity, 'rgb(102, 204, 255)');
 
-var i = 0;
 function updateCharts() {
-    i++;
     charts.forEach(function(cha) {
-        cha.config.data.labels.push(i);
+        cha.config.data.labels.push("");
         cha.update();
     });
 }
 
 function addPoint(payload) {
-    mapPoints.push(new google.maps.LatLng(payload.long, payload.lat));
-    console.log(payload);
-
+    addToMap(payload);
     temp.push(payload.temp);
     carbon.push(payload.carbon);
     humidity.push(payload.humidity);
-
     updateCharts();
-
-    console.log("Added " + payload.long + "," + payload.lat);
 }
 
 /*
@@ -81,7 +72,6 @@ function scanItemsFromDB() {
         console.log("Scanning items from DB");
         if (err) console.log(err);
         else {
-            console.log(data);
             data.Items.forEach(function (item) {
                 //console.log(dataDict[item]);
                 var payload = item.payload;
@@ -93,10 +83,11 @@ function scanItemsFromDB() {
         }
     });
 }
-//scanItemsFromDB();
-//setInterval(scanItemsFromDB, 10000);
 
-setInterval(testAdd, 3000);
+// TODO: optimize, retrieve from local storage
+scanItemsFromDB();
+// setInterval(scanItemsFromDB, 10000);
+//setInterval(testAdd, 3000);
 
 var testTemp = 10, testCarbon = 200, testHumitidy = 50;
 function testAdd() {
@@ -109,8 +100,8 @@ function testAdd() {
         carbon: testCarbon,
         humidity: testHumitidy,
         id: 1,
-        long: 52.006504 + Math.random() / 10,
-        lat: 4.362238 + Math.random() / 10,
+        lat: 52.006504 + Math.random() / 10,
+        long: 4.362238 + Math.random() / 10,
         timestamp: 201709282218
     };
     addPoint(dummy)
