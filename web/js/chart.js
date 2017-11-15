@@ -2,7 +2,7 @@
  * Created by gabriel on 2017-10-19.
  */
 
-var charts = [], temp = [], carbon = [],  humidity = [];
+var charts = [], tempArray = [], carbonArray = [],  humidityArray = [];
 var options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -19,7 +19,6 @@ function createChart(name, dataPoints, color) {
     var dt = {
         labels: [], datasets: [{label: name, backgroundColor: color, borderColor: color, data: dataPoints}]
     };
-
     var chart = new Chart(document.getElementById(name), {
         type: 'line',
         data: dt,
@@ -29,9 +28,9 @@ function createChart(name, dataPoints, color) {
     return chart;
 }
 
-var chart_temp = createChart("chart_temp", temp, 'rgb(255, 163, 102)');
-var chart_carbon = createChart("chart_carbon", carbon, 'rgb(153, 153, 153)');
-var chart_humidity = createChart("chart_humidity", humidity, 'rgb(102, 204, 255)');
+var chart_temp = createChart("chart_temp", tempArray, 'rgb(255, 163, 102)');
+var chart_carbon = createChart("chart_carbon", carbonArray, 'rgb(153, 153, 153)');
+var chart_humidity = createChart("chart_humidity", humidityArray, 'rgb(102, 204, 255)');
 
 function updateCharts() {
     charts.forEach(function(cha) {
@@ -42,9 +41,9 @@ function updateCharts() {
 
 function addPoint(payload) {
     addToMap(payload);
-    temp.push(payload.temp);
-    carbon.push(payload.carbon);
-    humidity.push(payload.humidity);
+    tempArray.push(payload.temp);
+    carbonArray.push(payload.carbon);
+    humidityArray.push(payload.humidity);
     updateCharts();
 }
 
