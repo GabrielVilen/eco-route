@@ -83,7 +83,7 @@ function scanItemsFromDB() {
     });
 }
 
-// TODO: optimize, retrieve from local storage
+// TODO: optimize, retrieve points from local storage?
 scanItemsFromDB();
 // setInterval(scanItemsFromDB, 10000);
 //setInterval(testAdd, 3000);
