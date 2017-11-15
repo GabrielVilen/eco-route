@@ -25,22 +25,17 @@ function initMap() {
     middleLayer  = createHeatmap(['rgba(255, 255, 0, 0)', 'rgba(255, 255, 0, 1)']);
     highLayer  = createHeatmap(['rgba(255, 0, 0, 0)', 'rgba(255, 0, 0, 1)']);
 
-    humLayer = new google.maps.visualization.HeatmapLayer({
-        data: humPoints,
-        radius: 10,
-        isToggled: false
-    });
+    carbonObj = {
+        "low": [],
+        "middle": [],
+        "high": []
+    };
     humidityObj = {
         "low": [],
         "middle": [],
         "high": []
     };
-    temp = {
-        "low": [],
-        "middle": [],
-        "high": []
-    };
-    carbonObj = {
+    tempObj = {
         "low": [],
         "middle": [],
         "high": []
@@ -73,9 +68,21 @@ function addTemp(payload) {
         fillOpacity: 0.5,
         map: map,
         center: {lat: payload.long, lng: payload.lat},
-        radius: 20,
+        radius: 10,
     });
     tempPoints.push(tempCircle);
+}
+function changeOpacity() {
+    changeLayerOpacity(lowLayer);
+    changeLayerOpacity(middleLayer);
+    changeLayerOpacity(highLayer);
+}
+
+let low = 0.5, high = 0.9;
+function changeLayerOpacity(layer) {
+    console.log(layer.opacity);
+    layer.opacity = (layer.opacity === high ? low : high);
+    setMaps();
 }
 
 function addToArray(latLng, value, array, maxGreen, maxYellow) {
@@ -94,15 +101,19 @@ function toggleTemperature() {
     });
 }
 
-function toggleMap(obj) {
-    lowLayer.isToggled = !lowLayer.isToggled;
-
-    lowLayer.setData(obj.low);
-    middleLayer.setData(obj.middle);
-    highLayer.setData(obj.high);
+function setMaps() {
     lowLayer.setMap(map);
     middleLayer.setMap(map);
     highLayer.setMap(map);
+}
+
+function toggleMap(obj) {
+    lowLayer.isToggled = !lowLayer.isToggled;
+    lowLayer.setData(obj.low);
+    middleLayer.setData(obj.middle);
+    highLayer.setData(obj.high);
+
+    setMaps();
 }
 
 function toggleHumidity() {

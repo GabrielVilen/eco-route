@@ -83,9 +83,8 @@ function scanItemsFromDB() {
     });
 }
 
-// TODO: optimize, retrieve points from local storage?
 scanItemsFromDB();
-// setInterval(scanItemsFromDB, 10000);
+//setInterval(scanItemsFromDB, 3000);
 //setInterval(testAdd, 3000);
 
 var testTemp = 10, testCarbon = 200, testHumitidy = 50;
